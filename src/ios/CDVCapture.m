@@ -229,6 +229,7 @@
     // options could contain limit, duration and mode
     // taking more than one video (limit) is only supported if provide own controls via cameraOverlayView property
     NSNumber* duration = [options objectForKey:@"duration"];
+    NSNumber* cameraDirection = [options objectForKey:@"cameraDirection"];
     NSString* mediaType = nil;
 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -273,6 +274,11 @@
             // pickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;
             // pickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
             // pickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+            
+            // BuboBox device options
+            if([cameraDirection intValue] == 1) {
+                pickerController.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+            }
         }
         // CDVImagePicker specific property
         pickerController.callbackId = callbackId;
@@ -616,7 +622,7 @@
 
 - (void)loadView
 {
-	if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
