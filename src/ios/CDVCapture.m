@@ -132,6 +132,7 @@
     // options could contain limit and mode neither of which are supported at this time
     // taking more than one picture (limit) is only supported if provide own controls via cameraOverlayView property
     // can support mode in OS
+    NSNumber* cameraDirection = [options objectForKey:@"cameraDirection"];
 
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         NSLog(@"Capture.imageCapture: camera not available.");
@@ -150,12 +151,17 @@
             pickerController.mediaTypes = [NSArray arrayWithObjects:(NSString*)kUTTypeImage, nil];
         }
 
-        /*if ([pickerController respondsToSelector:@selector(cameraCaptureMode)]){
+        if ([pickerController respondsToSelector:@selector(cameraCaptureMode)]){
             // iOS 4.0
-            pickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-            pickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            pickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
-        }*/
+            //pickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            //pickerController.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+            //pickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+            
+            // BuboBox device options
+            if([cameraDirection intValue] == 1) {
+                pickerController.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+            }
+        }
         // CDVImagePicker specific property
         pickerController.callbackId = callbackId;
 
